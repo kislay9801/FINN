@@ -1,0 +1,346 @@
+{
+  "documents": [
+    {
+      "ticker": "INFY",
+      "title": "Infosys Q2 FY27 results",
+      "source": "https://www.infosys.com/investors/reports-filings/quarterly-results/2026-2027/q2/documents/fact-sheet.pdf",
+      "sha256": "f1747a54c5f8da2f1ed3bdb4806423f8a747635f6c0a34bcac8ceb55bb1543d0",
+      "pages": 4,
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00"
+    },
+    {
+      "ticker": "INFY",
+      "title": "Infosys Q2 FY27 transcript",
+      "source": "https://www.infosys.com/investors/reports-filings/quarterly-results/2026-2027/q2/documents/transcripts/earningscall.pdf",
+      "sha256": "20038fc7761c6396fc13bb396f0d59caaf02f1b115c67359aae48d866afafe4e",
+      "pages": 25,
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00"
+    },
+    {
+      "ticker": "INFY",
+      "title": "Infosys Q2 FY27 release",
+      "source": "https://www.infosys.com/investors/reports-filings/quarterly-results/2026-2027/q2/documents/ifrs-inr-press-release.pdf",
+      "sha256": "daa1e96304143cf3c45a9a70df47301b24bdd316eff4cc78985d23b89f6c1adb",
+      "pages": 8,
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00"
+    },
+    {
+      "ticker": "INFY",
+      "title": "Infosys Q1 FY27 results",
+      "source": "https://www.infosys.com/investors/reports-filings/quarterly-results/2026-2027/q1/documents/fact-sheet.pdf",
+      "sha256": "310ec0c7b5eac1c0b9c167eb1d09b189f1da1432b0e0f8a94f4b55425410d035",
+      "pages": 3,
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00"
+    },
+    {
+      "ticker": "INFY",
+      "title": "Infosys Q1 FY27 transcript",
+      "source": "https://www.infosys.com/investors/reports-filings/quarterly-results/2026-2027/q1/documents/transcripts/earningscall.pdf",
+      "sha256": "a7be1c05b4f54dfa0cde220806c44cf867024f461d9bf20d829bf6d98e7cdf78",
+      "pages": 24,
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00"
+    },
+    {
+      "ticker": "INFY",
+      "title": "Infosys Q1 FY27 release",
+      "source": "https://www.infosys.com/investors/reports-filings/quarterly-results/2026-2027/q1/documents/ifrs-inr-press-release.pdf",
+      "sha256": "417a69774f091d7662c8fa9297a0f25b95580ed8808453e61fd8d0c1a6061ae0",
+      "pages": 8,
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00"
+    },
+    {
+      "ticker": "INFY",
+      "title": "Infosys Q4 FY26 results",
+      "source": "https://www.infosys.com/investors/reports-filings/quarterly-results/2025-2026/q4/documents/fact-sheet.pdf",
+      "sha256": "3048fc9299799e4a7bc334e245b11b180e7dde4dbd0349d59a1191b33feeafdc",
+      "pages": 6,
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00"
+    },
+    {
+      "ticker": "INFY",
+      "title": "Infosys Q4 FY26 transcript",
+      "source": "https://www.infosys.com/investors/reports-filings/quarterly-results/2025-2026/q4/documents/transcripts/earningscall.pdf",
+      "sha256": "94a66c0c1fb837fbf7c90cb3c126c72f1598139f62a278bf875a744f1e158781",
+      "pages": 22,
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00"
+    },
+    {
+      "ticker": "INFY",
+      "title": "Infosys Q4 FY26 release",
+      "source": "https://www.infosys.com/investors/reports-filings/quarterly-results/2025-2026/q4/documents/ifrs-inr-press-release.pdf",
+      "sha256": "690841a4dc6971a09a8eb3f3d41f400d07f56263530196f1e2748ed253bd8d86",
+      "pages": 8,
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00"
+    },
+    {
+      "ticker": "INFY",
+      "title": "Infosys Q3 FY26 results",
+      "source": "https://www.infosys.com/investors/reports-filings/quarterly-results/2025-2026/q3/documents/fact-sheet.pdf",
+      "sha256": "f6dd5a3cab2bac4cc4597e24db389dc17ddf7f71ff10d984bc45407bff51e866",
+      "pages": 5,
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00"
+    },
+    {
+      "ticker": "INFY",
+      "title": "Infosys Q3 FY26 transcript",
+      "source": "https://www.infosys.com/investors/reports-filings/quarterly-results/2025-2026/q3/documents/transcripts/earningscall.pdf",
+      "sha256": "9bec5292e3d485b4e5efc64a61af99f37be7c1b8eadac3d2377097882e7ea220",
+      "pages": 22,
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00"
+    },
+    {
+      "ticker": "INFY",
+      "title": "Infosys Q3 FY26 release",
+      "source": "https://www.infosys.com/investors/reports-filings/quarterly-results/2025-2026/q3/documents/ifrs-inr-press-release.pdf",
+      "sha256": "d295c0a24c3c419df5299c9573fa21b9d892c355f09dbdc3120834cdc77ec63a",
+      "pages": 9,
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00"
+    },
+    {
+      "ticker": "INFY",
+      "title": "Infosys Q2 FY26 results",
+      "source": "https://www.infosys.com/investors/reports-filings/quarterly-results/2025-2026/q2/documents/fact-sheet.pdf",
+      "sha256": "5b5a7e59df25327b8f1c82737b00a9a96737ef96020b22ae0e66ac282ba7f48e",
+      "pages": 4,
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00"
+    },
+    {
+      "ticker": "INFY",
+      "title": "Infosys Q2 FY26 transcript",
+      "source": "https://www.infosys.com/investors/reports-filings/quarterly-results/2025-2026/q2/documents/transcripts/earningscall.pdf",
+      "sha256": "ab1e02772c11829639ab636e9eed8294db740861ff3a4ca002c7ef91b5891ece",
+      "pages": 22,
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00"
+    },
+    {
+      "ticker": "INFY",
+      "title": "Infosys Q2 FY26 release",
+      "source": "https://www.infosys.com/investors/reports-filings/quarterly-results/2025-2026/q2/documents/ifrs-inr-press-release.pdf",
+      "sha256": "e6c6bd7901a64380a3fa49859cbd84f27ccc16318c92aaf296ef41288ffd3c14",
+      "pages": 8,
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00"
+    },
+    {
+      "ticker": "INFY",
+      "title": "Infosys Integrated Annual Report 2025–26",
+      "source": "https://www.infosys.com/investors/reports-filings/annual-report/annual/documents/infosys-ar-26.pdf",
+      "sha256": "602f04ec2abfacbf28ca8ff6e592db51942c620af4c12287d3a717edb6cd078f",
+      "pages": 383,
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00"
+    },
+    {
+      "ticker": "ASIANPAINT",
+      "title": "ASIANPAINT · Annual Report 2026",
+      "source": "https://www.bseindia.com/xml-data/corpfiling/AttachHis/aeefecce-2626-4370-9455-c7c6dd94d670.pdf",
+      "sha256": "b7977d2419ed2e211d0ad53270165cc4205cafff7982b6b74fed6502fa25aacb",
+      "pages": 294,
+      "retrievedAt": "2026-11-14T06:44:35.019903+00:00"
+    },
+    {
+      "ticker": "ASIANPAINT",
+      "title": "ASIANPAINT · Transcript",
+      "source": "https://www.bseindia.com/xml-data/corpfiling/AttachHis/ee7e6efe-1f9b-4b5e-bff7-1da18902ffeb.pdf",
+      "sha256": "5194bb1483895afd0e5f41ebfab2c9cc29913ee850c7cb480a2d48cde126f4bf",
+      "pages": 34,
+      "retrievedAt": "2026-11-14T06:44:35.019903+00:00"
+    },
+    {
+      "ticker": "PIDILITIND",
+      "title": "PIDILITIND · Annual Report 2026",
+      "source": "https://www.bseindia.com/xml-data/corpfiling/AttachHis/84c374a7-10a3-4a3b-8693-cc7e75a0a6b8.pdf",
+      "sha256": "def33f7fede0dabd7dd3ae7572b050a18da3b426e2bb920b3bc6f48da0d9f606",
+      "pages": 338,
+      "retrievedAt": "2026-11-14T06:44:35.019903+00:00"
+    },
+    {
+      "ticker": "PIDILITIND",
+      "title": "PIDILITIND · Transcript",
+      "source": "https://www.bseindia.com/xml-data/corpfiling/AttachHis/4ba30191-cee1-420b-a1c5-8e1864b29711.pdf",
+      "sha256": "cf87820950b9388a64719af732334b074c16dd69ff884e6fdcc903fb91b89e3a",
+      "pages": 20,
+      "retrievedAt": "2026-11-14T06:44:35.019903+00:00"
+    },
+    {
+      "ticker": "DMART",
+      "title": "DMART · Annual Report 2026",
+      "source": "https://www.bseindia.com/xml-data/corpfiling/AttachHis/b496eda6-102e-4914-9a09-ce1e7f66c8b9.pdf",
+      "sha256": "4af5488c6ad6d64ee44deb948232bdaaf9b0a1ef06b246f7f46d3bd8ea2b868b",
+      "pages": 275,
+      "retrievedAt": "2026-11-14T06:44:35.019903+00:00"
+    },
+    {
+      "ticker": "DMART",
+      "title": "DMART · Transcript",
+      "source": "https://www.bseindia.com/xml-data/corpfiling/AttachHis/deef7a97-c6ee-4727-804d-f00f23f54f71.pdf",
+      "sha256": "1b0f87a885e77ea9dde76ac5b7e8a52aabb4bdb1f91cd7f91d8739926282016e",
+      "pages": 38,
+      "retrievedAt": "2026-11-14T06:44:35.019903+00:00"
+    },
+    {
+      "ticker": "BAJFINANCE",
+      "title": "BAJFINANCE · Annual Report 2026",
+      "source": "https://www.bseindia.com/xml-data/corpfiling/AttachHis/a2357f0b-2828-4790-8a02-61064bd1929b.pdf",
+      "sha256": "5535038a06d803a1ead68bb1e2e1677569c06d013046c1bcbbcf8abc7944434f",
+      "pages": 515,
+      "retrievedAt": "2026-11-14T06:44:35.019903+00:00"
+    },
+    {
+      "ticker": "BAJFINANCE",
+      "title": "BAJFINANCE · Transcript",
+      "source": "https://www.bseindia.com/xml-data/corpfiling/AttachHis/7873abcb-7f97-487d-a474-028b0a26feea.pdf",
+      "sha256": "60d403b77e84ce95713b0c6461a6d1025cf3a38f9e2d9818b64d0af1a82ac296",
+      "pages": 20,
+      "retrievedAt": "2026-11-14T06:44:35.019903+00:00"
+    },
+    {
+      "ticker": "WIPRO",
+      "title": "WIPRO · Annual Report 2026",
+      "source": "https://www.bseindia.com/xml-data/corpfiling/AttachHis/d4ffaa08-a47a-487b-b136-eb4f26c1bace.pdf",
+      "sha256": "48f0612b11ccd1883d229d9c6ae3fcc0de65c6ae6bc6034b562884ecbbd5afd9",
+      "pages": 561,
+      "retrievedAt": "2026-11-14T06:44:35.019903+00:00"
+    },
+    {
+      "ticker": "WIPRO",
+      "title": "WIPRO · Transcript",
+      "source": "https://www.bseindia.com/xml-data/corpfiling/AttachHis/6b741bc5-7ed0-4223-900a-412aaf529820.pdf",
+      "sha256": "ae48a45550a9199f63af07ec9be1831df5d6c753a76c1ce70d52d17de3c1790c",
+      "pages": 16,
+      "retrievedAt": "2026-11-14T06:44:35.019903+00:00"
+    }
+  ],
+  "marketSeries": [
+    {
+      "ticker": "RELIANCE",
+      "sessions": 63,
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/RELIANCE.NS?range=3mo&interval=1d",
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00",
+      "latestSession": "2026-11-13T03:45:00+00:00"
+    },
+    {
+      "ticker": "HDFCBANK",
+      "sessions": 63,
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/HDFCBANK.NS?range=3mo&interval=1d",
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00",
+      "latestSession": "2026-11-13T03:45:00+00:00"
+    },
+    {
+      "ticker": "ICICIBANK",
+      "sessions": 63,
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/ICICIBANK.NS?range=3mo&interval=1d",
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00",
+      "latestSession": "2026-11-13T03:45:00+00:00"
+    },
+    {
+      "ticker": "INFY",
+      "sessions": 63,
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/INFY.NS?range=3mo&interval=1d",
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00",
+      "latestSession": "2026-11-13T03:45:00+00:00"
+    },
+    {
+      "ticker": "TCS",
+      "sessions": 63,
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/TCS.NS?range=3mo&interval=1d",
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00",
+      "latestSession": "2026-11-13T03:45:00+00:00"
+    },
+    {
+      "ticker": "HCLTECH",
+      "sessions": 63,
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/HCLTECH.NS?range=3mo&interval=1d",
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00",
+      "latestSession": "2026-11-13T03:45:00+00:00"
+    },
+    {
+      "ticker": "ITC",
+      "sessions": 63,
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/ITC.NS?range=3mo&interval=1d",
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00",
+      "latestSession": "2026-11-13T03:45:00+00:00"
+    },
+    {
+      "ticker": "HINDUNILVR",
+      "sessions": 62,
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/HINDUNILVR.NS?range=3mo&interval=1d",
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00",
+      "latestSession": "2026-11-12T03:45:00+00:00"
+    },
+    {
+      "ticker": "BHARTIARTL",
+      "sessions": 63,
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/BHARTIARTL.NS?range=3mo&interval=1d",
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00",
+      "latestSession": "2026-11-13T03:45:00+00:00"
+    },
+    {
+      "ticker": "SUNPHARMA",
+      "sessions": 63,
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/SUNPHARMA.NS?range=3mo&interval=1d",
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00",
+      "latestSession": "2026-11-13T03:45:00+00:00"
+    },
+    {
+      "ticker": "DRREDDY",
+      "sessions": 63,
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/DRREDDY.NS?range=3mo&interval=1d",
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00",
+      "latestSession": "2026-11-13T03:45:00+00:00"
+    },
+    {
+      "ticker": "LT",
+      "sessions": 63,
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/LT.NS?range=3mo&interval=1d",
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00",
+      "latestSession": "2026-11-13T03:45:00+00:00"
+    },
+    {
+      "ticker": "NTPC",
+      "sessions": 63,
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/NTPC.NS?range=3mo&interval=1d",
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00",
+      "latestSession": "2026-11-13T03:45:00+00:00"
+    },
+    {
+      "ticker": "MARUTI",
+      "sessions": 63,
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/MARUTI.NS?range=3mo&interval=1d",
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00",
+      "latestSession": "2026-11-13T03:45:00+00:00"
+    },
+    {
+      "ticker": "TITAN",
+      "sessions": 63,
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/TITAN.NS?range=3mo&interval=1d",
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00",
+      "latestSession": "2026-11-13T03:45:00+00:00"
+    },
+    {
+      "ticker": "CDSL",
+      "sessions": 63,
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/CDSL.NS?range=3mo&interval=1d",
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00",
+      "latestSession": "2026-11-13T03:45:00+00:00"
+    },
+    {
+      "ticker": "DIXON",
+      "sessions": 63,
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/DIXON.NS?range=3mo&interval=1d",
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00",
+      "latestSession": "2026-11-13T03:45:00+00:00"
+    },
+    {
+      "ticker": "TRENT",
+      "sessions": 62,
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/TRENT.NS?range=3mo&interval=1d",
+      "retrievedAt": "2026-11-14T06:26:36.484631+00:00",
+      "latestSession": "2026-11-12T03:45:00+00:00"
+    }
+  ],
+  "archive": {
+    "source": "https://www.nseindia.com/api/corporate-announcements?index=equities&from_date=15-10-2026&to_date=14-11-2026",
+    "retrievedAt": "2026-11-14T06:47:20.183Z",
+    "portfolioAndCandidateFilings": 310,
+    "rawResponseSha256": "298702df5da6f700607969037a0d900e4e74028be769cf10f21e376475f2d298"
+  }
+}
