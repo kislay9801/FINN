@@ -1,8 +1,10 @@
 # Login-first and Gemini update · 15 November 2026
 
-- Lint, strict TypeScript, 27/27 unit/adapter tests and production build passed.
+- Lint, strict TypeScript, 28/28 unit/adapter tests and production build passed.
 - **12/12 mobile and desktop browser tests passed** against a fresh production server. An earlier ambiguous test selector was corrected; repeated-run rate limiting was verified and reset by restarting the local server.
 - Login is the root entry, workspace session verification precedes data loading, and demo is explicit with no personal notifications. Browser cases cover wrong credentials, confirmation-required signup, verified login, quiet first-visit baseline, new rule matches, sign-out and account isolation.
+- Production account UI checks passed 6/6 at mobile and desktop sizes using synthetic session responses. Live auth reports configured; real credentials and confirmation email delivery remain owner checks.
+- Live Gemini requests reached the provider. Structured output was enforced after a malformed response; unsupported numerical claims are withheld per section, preserving validated sections and original evidence. Unit coverage rejects unsupported and partial-number matches.
 - Gemini configuration recognizes GEMINI_API_KEY without requiring a rename. Unit cases cover provider routing and incompatible example defaults. Live Gemini status is recorded separately after deployment; configuration detection alone is not proof of successful synthesis.
 - Mobile and desktop login screenshots were visually checked. Local screenshots show unconfigured local auth; hosted Supabase configuration is independent.
 - Auth browser cases use synthetic provider responses; they do not prove real email delivery or a real user's credentials. Personal state remains browser-local.

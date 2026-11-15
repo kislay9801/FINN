@@ -73,6 +73,11 @@ export function validateCitations(
       (!s.analysis.match(/\d/) || s.citations.length > 0),
   );
 }
+export function numbersSupported(text: string, evidence: string) {
+  const normalized = evidence.replaceAll(",", "");
+  return (text.replaceAll(",", "").match(/\b\d+(?:\.\d+)?\b/g) ?? [])
+    .every((n) => new RegExp(`\\b${n.replace(".", "\\.")}\\b`).test(normalized));
+}
 export async function researchCompany(
   ticker: string,
   company: string,
@@ -158,7 +163,7 @@ export async function researchCompany(
       title,
       analysis: evidence.length
         ? ai
-          ? "Primary-source passages are available below. AI synthesis did not complete for this request; inspect the original evidence and provider status."
+          ? "Primary-source passages are available below. AI synthesis did not complete for this request; inspect the original evidence and validation status."
           : "Primary-source passages are available below. Configure an AI provider for an analytical synthesis; excerpts are not independent verification of management claims."
         : "Insufficient primary-source evidence was retrieved for this section.",
       citations: evidence.map(index),
@@ -272,36 +277,30 @@ export async function researchCompany(
         )
       )
         throw new Error("AI citation validation failed");
-      // Reject numeric claims unless the same normalised token is present in cited evidence.
-      for (const section of parsed.sections) {
-        const evidence = section.citations
-          .map((i) => citations[i].excerpt)
-          .join(" ")
-          .replaceAll(",", "");
-        for (const number of section.analysis
-          .replaceAll(",", "")
-          .match(/\b\d+(?:\.\d+)?\b/g) ?? []) {
-          if (!new RegExp(`\\b${number.replace(".", "\\.")}\\b`).test(evidence))
-            throw new Error("Unsupported numeric claim rejected");
+      // Withhold individual unsupported sections while retaining validated analysis.
+      let accepted = 0;
+      const validatedSections = parsed.sections.map((section) => {
+        const evidence = section.citations.map((i) => citations[i].excerpt).join(" ").replaceAll(",", "");
+        if (!numbersSupported(section.analysis, evidence)) {
+          result.warnings.push(`AI numerical claims withheld in ${section.title}: the cited passages did not support every number. Original evidence is retained.`);
+          return sections.find((s) => s.title === section.title)!;
         }
-      }
-      if (parsed.answer) {
-        const all = citations
-          .map((c) => c.excerpt)
-          .join(" ")
-          .replaceAll(",", "");
-        if (
-          (
-            parsed.answer.replaceAll(",", "").match(/\b\d+(?:\.\d+)?\b/g) ?? []
-          ).some((n) => !all.includes(n))
-        )
-          throw new Error("Unsupported answer number rejected");
+        accepted++;
+        return section;
+      });
+      let answer = parsed.answer;
+      if (answer) {
+        const all = citations.map((c) => c.excerpt).join(" ").replaceAll(",", "");
+        if (!numbersSupported(answer, all)) {
+          result.warnings.push("AI answer withheld because a numerical claim was unsupported. Retrieved question evidence remains available.");
+          answer = undefined;
+        }
       }
       result = {
         ...result,
-        sections: parsed.sections,
-        answer: parsed.answer ?? result.answer,
-        mode: "llm",
+        sections: validatedSections,
+        answer: answer || result.answer,
+        mode: accepted ? "llm" : "evidence",
       };
     } catch (e) {
       result.warnings.push(
