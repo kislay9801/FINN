@@ -117,6 +117,30 @@ export function alertMatches(signal: Signal, rules: Rules) {
     signal.priority >= rules.minimumPriority
   );
 }
+export function evaluateNewSignals(
+  seen: string[] | null,
+  signals: Signal[],
+  rules: Rules,
+  now: number,
+) {
+  const previous = new Set(seen ?? []);
+  const unseen = signals.filter((s) => !previous.has(s.id));
+  const next = unseen.length
+    ? [...previous, ...unseen.map((s) => s.id)].slice(-10000)
+    : (seen ?? []);
+  return {
+    seen: next,
+    matches:
+      seen === null
+        ? []
+        : unseen.filter(
+            (s) =>
+              alertMatches(s, rules) &&
+              now - Date.parse(s.publishedAt) >= 0 &&
+              now - Date.parse(s.publishedAt) < 30 * 86400_000,
+          ),
+  };
+}
 export function dedupe<T extends { id: string }>(items: T[]): T[] {
   return [...new Map(items.map((x) => [x.id, x])).values()];
 }

@@ -1,7 +1,9 @@
 "use client";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Account } from "./account";
+import type { AccountIdentity } from "@/lib/account-client";
 import {
   Activity,
   ArrowRight,
@@ -30,11 +32,11 @@ import {
 } from "lucide-react";
 import { portfolio as seed, candidates } from "@/data/companies";
 import {
-  alertMatches,
   dedupe,
   marketStats,
   priceSignals,
   prioritySort,
+  evaluateNewSignals,
 } from "@/lib/finance";
 import {
   categories,
@@ -94,7 +96,9 @@ async function post<T>(url: string, body: unknown): Promise<T> {
   if (!r.ok) throw new Error(data.error ?? "The request could not complete.");
   return data;
 }
-export default function Finn() {
+export default function Finn({ user }: { user?: AccountIdentity }) {
+  const router = useRouter();
+  const scope = `finn.${user?.id ?? "demo"}`;
   const [clock, setClock] = useState(0);
   useEffect(() => {
     setClock(Date.now());
@@ -107,19 +111,23 @@ export default function Finn() {
     [refreshing, setRefreshing] = useState(false),
     [toast, setToast] = useState("");
   const [watchlist, setWatchlist, watchReady] = useStored<Company[]>(
-      "finn.watchlist.v1",
+      `${scope}.watchlist.v1`,
       seed,
     ),
     [rules, setRules, rulesReady] = useStored<Rules>(
-      "finn.rules.v1",
+      `${scope}.rules.v1`,
       defaultRules,
     ),
-    [saved, setSaved] = useStored<string[]>("finn.saved.v1", []),
-    [reviewed, setReviewed] = useStored<string[]>("finn.reviewed.v1", []),
+    [saved, setSaved] = useStored<string[]>(`${scope}.saved.v1`, []),
+    [reviewed, setReviewed] = useStored<string[]>(`${scope}.reviewed.v1`, []),
     [notices, setNotices, noticesReady] = useStored<Notice[]>(
-      "finn.notices.v1",
+      `${scope}.notices.v2`,
       [],
     );
+  const [seenSignals, setSeenSignals, seenReady] = useStored<string[] | null>(
+    `${scope}.seen-signals.v1`,
+    null,
+  );
   const [windowDays, setWindowDays] = useState("1"),
     [category, setCategory] = useState("all"),
     [priority, setPriority] = useState("all"),
@@ -144,7 +152,7 @@ export default function Finn() {
     [question, setQuestion] = useState(""),
     [history, setHistory] = useStored<
       { ticker: string; question: string; answer: string; at: string }[]
-    >("finn.history.v1", []);
+    >(`${scope}.history.v1`, []);
   const [filing, setFiling] = useState<{
       document: {
         title: string;
@@ -164,7 +172,7 @@ export default function Finn() {
     window.history.pushState(
       null,
       "",
-      `/?view=${next}${symbol ? "&ticker=" + encodeURIComponent(symbol) : ""}`,
+      `${window.location.pathname}?view=${next}${symbol ? "&ticker=" + encodeURIComponent(symbol) : ""}`,
     );
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
@@ -295,30 +303,45 @@ export default function Finn() {
     [data, watchlist],
   );
   useEffect(() => {
-    if (!data || !watchReady || !rulesReady || !noticesReady || !rules.enabled)
+    if (
+      !user ||
+      !data ||
+      !watchReady ||
+      !rulesReady ||
+      !noticesReady ||
+      !seenReady
+    )
       return;
-    const now = new Date().toISOString();
-    const matches = allSignals.filter(
-      (s) =>
-        alertMatches(s, rules) &&
-        Date.now() - Date.parse(s.publishedAt) < 30 * 86400_000,
+    const result = evaluateNewSignals(
+      seenSignals,
+      allSignals,
+      rules,
+      Date.now(),
     );
-    setNotices((old) => {
-      const existing = new Set(old.map((n) => n.id));
-      const fresh = matches.filter((s) => !existing.has(s.id));
-      if (!fresh.length) return old;
-      return [
-        ...fresh.map((s) => ({ ...s, evaluatedAt: now, read: false })),
+    if (result.seen !== seenSignals) setSeenSignals(result.seen);
+    if (!result.matches.length) return;
+    const now = new Date().toISOString();
+    setNotices((old) =>
+      dedupe([
+        ...result.matches.map((signal) => ({
+          ...signal,
+          evaluatedAt: now,
+          read: false,
+        })),
         ...old,
-      ].slice(0, 300);
-    });
+      ]).slice(0, 300),
+    );
   }, [
-    allSignals,
+    user,
     data,
     watchReady,
     rulesReady,
     noticesReady,
+    seenReady,
+    seenSignals,
+    allSignals,
     rules,
+    setSeenSignals,
     setNotices,
   ]);
   const loadResearch = useCallback(
@@ -405,7 +428,7 @@ export default function Finn() {
   };
   const delivered = useRef(new Set<string>());
   useEffect(() => {
-    if (!noticesReady) return;
+    if (!user || !noticesReady) return;
     const fresh = notices.filter(
       (n) =>
         !delivered.current.has(n.id) &&
@@ -424,8 +447,8 @@ export default function Finn() {
         }
       }
     }
-  }, [notices, noticesReady]);
-  const unread = notices.filter((n) => !n.read).length;
+  }, [notices, noticesReady, user]);
+  const unread = user ? notices.filter((n) => !n.read).length : 0;
   const health = data?.health ?? [];
   return (
     <div className="app-shell">
@@ -460,7 +483,7 @@ export default function Finn() {
           </p>
           <span>ENAM BUILD CHALLENGE / 2026</span>
         </div>
-        <Account placement="sidebar" />
+        <Account placement="sidebar" user={user} />
       </aside>
       <main className="main">
         <header className="topbar">
@@ -471,7 +494,7 @@ export default function Finn() {
             WORKSPACE <span>/</span> {label(view)}
           </span>
           <div className="top-actions">
-            <Account placement="header" />
+            <Account placement="header" user={user} />
             <span className="local-tag">
               <i />
               SOURCE-BACKED ARCHIVE
@@ -496,6 +519,18 @@ export default function Finn() {
           </div>
         </header>
         <div className="page-content">
+          {!user && (
+            <div className="demo-banner">
+              <ShieldCheck size={17} />
+              <span>
+                <strong>Demo workspace</strong> · Sample portfolio. Personal
+                notifications are off.
+              </span>
+              <Link href="/login">
+                Open your workspace <ArrowRight size={14} />
+              </Link>
+            </div>
+          )}
           {view === "today" && (
             <>
               <div className="page-kicker">
@@ -1079,11 +1114,15 @@ export default function Finn() {
                       <div className="mode-notice">
                         <ShieldCheck size={18} />
                         <div>
-                          <strong>Primary-source evidence mode</strong>
+                          <strong>
+                            {research.aiConfigured
+                              ? "Evidence retained · AI synthesis unavailable"
+                              : "Primary-source evidence mode"}
+                          </strong>
                           <p>
-                            Deterministic comparisons and original passages are
-                            available. Set a server-side LLM key for analytical
-                            synthesis and conversational answers.
+                            {research.aiConfigured
+                              ? `The ${research.aiProvider === "gemini" ? "Gemini" : "AI"} provider is configured, but this request did not produce a validated answer. Original passages and deterministic comparisons remain available. See the details below.`
+                              : "Deterministic comparisons and original passages are available. Connect an AI provider for analytical synthesis and conversational answers."}
                           </p>
                         </div>
                       </div>
@@ -1489,6 +1528,10 @@ export default function Finn() {
                   <button
                     className="button subtle full-width"
                     onClick={async () => {
+                      if (!user) {
+                        router.push("/login");
+                        return;
+                      }
                       if (!("Notification" in window))
                         return tell(
                           "Browser notifications are not supported here.",
@@ -1506,7 +1549,9 @@ export default function Finn() {
                     }}
                   >
                     <Bell size={16} />
-                    Enable browser notifications
+                    {user
+                      ? "Enable browser notifications"
+                      : "Log in for personal notifications"}
                   </button>
                   <p className="small muted">
                     Personal rules run when this workspace is open and new data
@@ -1536,7 +1581,7 @@ export default function Finn() {
                     History reflects rules at evaluation time. Changing a
                     threshold does not remove an earlier alert.
                   </p>
-                  {notices.length ? (
+                  {user && notices.length ? (
                     notices.map((n) => (
                       <button
                         className={"notice " + (!n.read ? "unread" : "")}
@@ -1569,10 +1614,15 @@ export default function Finn() {
                   ) : (
                     <div className="empty-state">
                       <Bell size={27} />
-                      <h3>Nothing has crossed your rules.</h3>
+                      <h3>
+                        {user
+                          ? "Nothing new has crossed your rules."
+                          : "Personal notifications are off."}
+                      </h3>
                       <p>
-                        New matches will appear here when source data is loaded.
-                        You can adjust thresholds at any time.
+                        {user
+                          ? "Your first visit establishes a baseline. New matches appear as new observations arrive or thresholds change."
+                          : "This demo shows a shared sample portfolio. Sign in to create and monitor your own alert history."}
                       </p>
                     </div>
                   )}

@@ -1,4 +1,4 @@
-import Finn from "@/components/finn";
+import { redirect } from "next/navigation";
 export default function Page() {
-  return <Finn />;
+  redirect("/login");
 }

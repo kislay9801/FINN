@@ -7,7 +7,10 @@ for (const [name, width, height] of [
   ["desktop", 1440, 1000],
 ] as const) {
   const page = await browser.newPage({ viewport: { width, height } });
-  await page.goto("http://localhost:3000");
+  await page.goto("http://localhost:3000/login");
+  await page.getByLabel("Email address").waitFor();
+  await page.screenshot({ path: `docs/screenshots/${name}-login.png`, fullPage: true });
+  await page.goto("http://localhost:3000/demo");
   await page.locator(".mover").first().waitFor();
   await page.getByRole("button", { name: "30 days", exact: true }).click();
   await page.locator(".signal-card").first().waitFor();
@@ -15,7 +18,7 @@ for (const [name, width, height] of [
     .getByRole("heading", { name: /Your portfolio/ })
     .scrollIntoViewIfNeeded();
   await page.screenshot({ path: `docs/screenshots/${name}-today.png` });
-  await page.goto("http://localhost:3000/?view=research&ticker=INFY");
+  await page.goto("http://localhost:3000/demo?view=research&ticker=INFY");
   await page
     .getByRole("heading", { name: "Q2 FY27 financial snapshot" })
     .waitFor();

@@ -1,12 +1,12 @@
 # FINN · Signal over Noise
 
-A mobile-first investment intelligence desk for the ENAM AI Engineer Build Challenge. Discover what changed, inspect the filing, then investigate the company. No login or credentials are required for the source-backed local experience.
+A mobile-first investment intelligence desk for the ENAM AI Engineer Build Challenge. Discover what changed, inspect the filing, then investigate the company. The default entry is a dedicated login page. An explicit source-backed demo remains available without credentials.
 
 Live application: https://finn-ecru-chi.vercel.app
 
-## Workspace and optional sign-in
+## Login and workspace
 
-The account button in the header (including mobile) and the bottom-left workspace control open the same account/settings panel. A custom workspace name saves on this device without requiring an account. The updated reading theme uses a dark pine navigation rail, warm paper surfaces, stronger contrast and larger body/financial text.
+`/` opens `/login`. A server-verified session is required before `/workspace` mounts. `/demo` is a labelled sample experience with no personal notifications. Account and bottom-left controls open workspace settings. Watchlists, preferences and saved state are namespaced per account on the device. The reading theme uses a dark pine navigation rail, warm paper surfaces and larger text.
 
 For actual email/password sign-in, account creation and sign-out, enable the Email provider in Supabase Authentication, allow new users if desired, and set **Site URL** to `https://finn-ecru-chi.vercel.app`. Add these Vercel environment variables and redeploy:
 
@@ -15,7 +15,7 @@ SUPABASE_URL=https://your-project.supabase.co
 SUPABASE_ANON_KEY=your-project-anon-or-publishable-key
 ```
 
-These are separate from the optional service-role key used for cache persistence. The server calls Supabase Auth, validates users with its `/user` endpoint and stores access/refresh tokens in HttpOnly, SameSite=Lax cookies (Secure in production). Expired sessions refresh through the server. Credentials and tokens are never placed in localStorage or returned to client components. Missing configuration keeps guest mode available and shows a precise connection message; it never pretends that a local profile is authenticated. The account panel explicitly states that watchlists/preferences remain browser-local and do not yet synchronize across devices. Actual hosted Supabase authentication requires those owner-provided settings; provider-response fixtures test the UI without creating real accounts or sending email.
+These are separate from the optional service-role key used for cache persistence. The server calls Supabase Auth, validates users with its `/user` endpoint and stores access/refresh tokens in HttpOnly, SameSite=Lax cookies (Secure in production). Expired sessions refresh through the server. Credentials and tokens are never placed in localStorage or returned to client components. Missing configuration keeps the explicit demo available and shows a precise connection message; it never pretends that a local profile is authenticated. The account panel explicitly states that watchlists/preferences remain browser-local and do not yet synchronize across devices. Actual hosted Supabase authentication requires those owner-provided settings; provider-response fixtures test the UI without creating real accounts or sending email.
 
 ## Run
 
@@ -34,7 +34,7 @@ Open http://localhost:3000. For a production server: `npm run build` then `npm s
 - 24-hour, 7-day, 30-day and custom-window filing digest. Priority, category, company and saved filters; procedural filings collapse into a secondary area. Signal details, original sources, saved and reviewed state, and contextual investigation.
 - Actual daily closes and volumes for all 18 stocks. Deterministic price movements and relative volume over the **previous** 20 sessions. No current-session leakage; insufficient baselines show unavailable.
 - Official NSE archive ingestion with RSS fallback. Manual refresh, provider health, retries, timeouts, bounded concurrency, stable URL-based deduplication and protected cron ingestion.
-- Persistent browser preferences, watchlist, notifications, saved/reviewed signals and research history. In-app alerts have evaluation times and stable event IDs. Lowering a threshold evaluates existing observations once; history retains earlier matches.
+- Persistent browser preferences, watchlist, notifications, saved/reviewed signals and research history. In-app alerts require a signed-in workspace and have evaluation times and stable event IDs. First opening records an observation baseline without creating historical unread notifications. Lowering a threshold evaluates existing observations once; history retains earlier matches.
 - Source discovery through Screener's **document links only**, then bounded primary PDF download and per-page text extraction. Annual reports, transcripts and presentations are selected ahead of procedural filings. Safe redirects are checked at every hop. No secondary financial tables or news enter the research corpus.
 - Eight research modules with original excerpts, an evidence drawer, document library and contextual questions. With a configured LLM, validated JSON synthesis uses retrieved evidence only. Without a key, the UI explicitly shows **evidence mode**, not simulated AI reasoning.
 - Infosys consolidated IFRS quarter comparison: revenue, operating profit, PBT, PAT attributable to owners, QoQ and YoY. EBITDA is explicitly unavailable. A guarded issuer/layout adapter rejects unsupported layouts and other issuers instead of guessing rows.
@@ -76,15 +76,15 @@ Parsed downloads cache by URL and content hash. Discovery caches for 24 hours on
 
 ## AI configuration
 
-Copy `.env.example` to `.env.local` and set:
+For Google Gemini, set the server-only Vercel variable and redeploy:
 
 ```text
-LLM_API_KEY=your-server-side-key
-LLM_BASE_URL=https://api.openai.com/v1
-LLM_MODEL=gpt-4.1-mini
+GEMINI_API_KEY=your-server-side-key
+# Optional model override:
+GEMINI_MODEL=gemini-3.5-flash-lite
 ```
 
-Any OpenAI-compatible chat-completions provider supporting JSON object output may be used. Choose a model available to your account. Keys never reach browser code. Provider errors or invalid model output preserve evidence-mode research. No LLM provider was configured during this build; live synthesis remains unverified.
+`GOOGLE_API_KEY` is also supported. Gemini uses Google's OpenAI-compatible endpoint automatically; no key rename or OpenAI base URL is needed. Other compatible providers can use `LLM_API_KEY`, `LLM_BASE_URL` and `LLM_MODEL`. An explicit `LLM_PROVIDER` may override detection. Keys never reach browser code. Provider quota, permission, model and validation failures retain evidence and show their reason, separately from missing configuration. Failed configured-provider responses cache for only one minute to permit retry.
 
 ## Persistence
 
@@ -116,6 +116,6 @@ Unit/integration tests use Node's built-in runner with TSX. Playwright uses an i
 
 ## Boundaries
 
-This is a public assessment prototype with optional email authentication; private per-user cloud workspaces are not implemented. Rate limits are per process; use a distributed limiter and per-user data authorization for a multi-user production rollout. General document discovery depends on third-party availability and primary-domain validation. The financial-layout and deterministic guidance adapters currently have deep coverage for Infosys; other companies get the same document/retrieval pipeline but no invented numerical completeness. No biography enrichment, OCR, semantic embeddings, trading/execution, brokerage linkage or background Web Push. No claims of real-time delivery or guaranteed investment outcomes.
+This is a public assessment prototype with email authentication and an explicit public demo; private per-user cloud workspaces are not implemented. Rate limits are per process; use a distributed limiter and per-user data authorization for a multi-user production rollout. General document discovery depends on third-party availability and primary-domain validation. The financial-layout and deterministic guidance adapters currently have deep coverage for Infosys; other companies get the same document/retrieval pipeline but no invented numerical completeness. No biography enrichment, OCR, semantic embeddings, trading/execution, brokerage linkage or background Web Push. No claims of real-time delivery or guaranteed investment outcomes.
 
-See `ARCHITECTURE.md`, `BUILD_DECISIONS.md` and `SUBMISSION_NOTES.md`.
+See `CHALLENGE_COVERAGE.md` for the brief audit and remaining gaps. See `ARCHITECTURE.md`, `BUILD_DECISIONS.md` and `SUBMISSION_NOTES.md`.

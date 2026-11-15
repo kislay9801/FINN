@@ -163,6 +163,9 @@ export type Research = {
   answer?: string;
   promises: PromiseRecord[];
   mode: "llm" | "evidence";
+  aiConfigured?: boolean;
+  aiProvider?: string;
+  aiModel?: string;
   coverage: string;
   cached: boolean;
   warnings: string[];

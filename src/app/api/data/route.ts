@@ -1,13 +1,15 @@
 import { initialData } from "@/server/ingestion";
-import { getCache } from "@/server/store";
+import { resolveLlmConfiguration } from "@/server/providers/llm";
 export const dynamic = "force-dynamic";
 export async function GET() {
+  const ai = resolveLlmConfiguration();
   return Response.json(
     {
       ...(await initialData()),
-      scheduledAlerts: (await getCache("alerts")) ?? [],
       mode: process.env.SUPABASE_URL ? "hosted" : "local",
-      llmConfigured: Boolean(process.env.LLM_API_KEY),
+      llmConfigured: Boolean(ai),
+      aiProvider: ai?.provider ?? null,
+      aiModel: ai?.model ?? null,
     },
     { headers: { "Cache-Control": "no-store" } },
   );

@@ -11,6 +11,7 @@ import {
   dedupe,
   prioritySort,
   compareTarget,
+  evaluateNewSignals,
 } from "../src/lib/finance";
 import { classify } from "../src/server/analysis/classify";
 import {
@@ -36,6 +37,8 @@ import {
 import { companies } from "../src/server/ingestion";
 import { portfolio } from "../src/data/companies";
 import { sameOrigin } from "../src/server/security";
+import { safeWorkspaceDestination } from "../src/lib/account-client";
+import { resolveLlmConfiguration } from "../src/server/providers/llm";
 import {
   accountUser,
   parseSession,
@@ -411,6 +414,78 @@ test("captured official archive remains distinct from synthetic test fixtures", 
         Date.parse(s.publishedAt),
     ),
   );
+});
+test("Gemini keys select Google and ignore incompatible OpenAI example defaults", () => {
+  const config = resolveLlmConfiguration({
+    GEMINI_API_KEY: "fixture-gemini-key",
+    LLM_BASE_URL: "https://api.openai.com/v1",
+    LLM_MODEL: "gpt-4.1-mini",
+  });
+  assert.equal(config?.provider, "gemini");
+  assert.equal(
+    config?.baseUrl,
+    "https://generativelanguage.googleapis.com/v1beta/openai",
+  );
+  assert.equal(config?.model, "gemini-3.5-flash-lite");
+  assert.equal(
+    resolveLlmConfiguration({ GOOGLE_API_KEY: "fixture-google-key" })?.provider,
+    "gemini",
+  );
+  assert.equal(
+    resolveLlmConfiguration({ LLM_API_KEY: "AIza-test-only-key" })?.provider,
+    "gemini",
+  );
+  assert.equal(
+    resolveLlmConfiguration({
+      GEMINI_API_KEY: "fixture-key",
+      GEMINI_MODEL: "gemini-custom",
+    })?.model,
+    "gemini-custom",
+  );
+  assert.equal(resolveLlmConfiguration({}), null);
+  assert.equal(
+    resolveLlmConfiguration({ LLM_API_KEY: "fixture-openai-key" })?.provider,
+    "openai-compatible",
+  );
+});
+test("first visit establishes an alert baseline; only unseen matching observations notify", () => {
+  const [signal] = priceSignals(series, defaultRules, "Fixture");
+  const now = Date.parse(signal.publishedAt) + 60_000;
+  const first = evaluateNewSignals(null, [signal], defaultRules, now);
+  assert.deepEqual(first.matches, []);
+  assert.ok(first.seen.includes(signal.id));
+  assert.equal(
+    evaluateNewSignals(first.seen, [signal], defaultRules, now).matches.length,
+    0,
+  );
+  const fresh = { ...signal, id: "fixture-new-observation" };
+  assert.equal(
+    evaluateNewSignals(first.seen, [signal, fresh], defaultRules, now).matches
+      .length,
+    1,
+  );
+  assert.equal(
+    evaluateNewSignals(
+      first.seen,
+      [fresh],
+      { ...defaultRules, enabled: false },
+      now,
+    ).matches.length,
+    0,
+  );
+});
+test("login destinations remain within the workspace route", () => {
+  assert.equal(
+    safeWorkspaceDestination("/workspace?view=research&ticker=INFY"),
+    "/workspace?view=research&ticker=INFY",
+  );
+  for (const value of [
+    "https://evil.test",
+    "//evil.test",
+    "/workspace/../../evil",
+    null,
+  ])
+    assert.equal(safeWorkspaceDestination(value), "/workspace");
 });
 test("same-origin validation works behind Next production host binding and rejects foreign origins", () => {
   assert.equal(
