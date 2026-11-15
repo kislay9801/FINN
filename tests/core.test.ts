@@ -525,6 +525,7 @@ test("same-origin validation works behind Next production host binding and rejec
 test("AI numerical checks reject unsupported numbers and partial matches", () => {
   assert.equal(numbersSupported("Revenue 1,250 and margin 12.5%", "Revenue 1250. Margin 12.5%."), true);
   assert.equal(numbersSupported("Margin 12%", "Margin 112%"), false);
+  assert.equal(numbersSupported("Margin 12%", "Margin 12.5%"), false);
   assert.equal(numbersSupported("Growth 13.5%", "Growth 13.4%"), false);
   assert.equal(numbersSupported("Cash conversion improved", "Cash flow information"), true);
 });

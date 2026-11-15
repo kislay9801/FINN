@@ -74,9 +74,9 @@ export function validateCitations(
   );
 }
 export function numbersSupported(text: string, evidence: string) {
-  const normalized = evidence.replaceAll(",", "");
-  return (text.replaceAll(",", "").match(/\b\d+(?:\.\d+)?\b/g) ?? [])
-    .every((n) => new RegExp(`\\b${n.replace(".", "\\.")}\\b`).test(normalized));
+  const tokens = /\b\d+(?:\.\d+)?\b/g;
+  const supported = new Set(evidence.replaceAll(",", "").match(tokens) ?? []);
+  return (text.replaceAll(",", "").match(tokens) ?? []).every((n) => supported.has(n));
 }
 export async function researchCompany(
   ticker: string,
