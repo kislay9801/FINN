@@ -90,7 +90,7 @@ GEMINI_MODEL=gemini-3.5-flash-lite
 
 Without credentials, server records use memory plus `.cache/` on local disk (`/tmp` on Vercel). Vercel local cache is ephemeral and not shared between instances. Browser settings are durable only in that browser.
 
-For durable hosted records, apply `supabase/migrations/001_finn.sql`, then set `SUPABASE_URL` and **server-only** `SUPABASE_SERVICE_ROLE_KEY`. The REST provider persists to `app_cache`. A database trigger mirrors ingestion into indexed companies, announcements, daily prices and ingestion status, and newly parsed PDFs into source documents and page chunks. The schema also provides typed relational foundations for facts, promises and user state; those derived/user records currently persist as cached research/browser state, not individually normalized rows. RLS is enabled with no anonymous policies. No Supabase instance was provisioned or verified during this build.
+For durable hosted records, apply `supabase/migrations/001_finn.sql`, then set `SUPABASE_URL` and **server-only** `SUPABASE_SERVICE_ROLE_KEY`. The REST provider persists to `app_cache`. A database trigger mirrors ingestion into indexed companies, announcements, daily prices and ingestion status, and newly parsed PDFs into source documents and page chunks. The schema also provides typed relational foundations for facts, promises and user state; those derived/user records currently persist as cached research/browser state, not individually normalized rows. RLS is enabled with no anonymous policies. The hosted app reports Supabase configured; this is not proof of every database write or email delivery.
 
 ## Deployment
 
@@ -99,7 +99,7 @@ For durable hosted records, apply `supabase/migrations/001_finn.sql`, then set `
 3. Add optional AI and Supabase variables; add a strong random `CRON_SECRET`.
 4. Deploy; verify `/`, `/api/data`, company search and Infosys research on a phone. Copy the actual resulting URL into submission notes.
 
-`vercel.json` requests a weekday 13:00 UTC / 18:30 IST cron (after market close). Platform plan limits apply; function budgets request 120 seconds. Missed calls do not imply missed trading days. Configure an equivalent external scheduler to call `GET /api/cron` with `Authorization: Bearer <CRON_SECRET>` if needed. Never put the secret in a URL. Without the secret the endpoint returns 401. Scheduling and hosted deployment remain unverified until configured in a real account. No deployment or repository URL has been invented.
+`vercel.json` requests a weekday 13:00 UTC / 18:30 IST cron (after market close). Platform plan limits apply; function budgets request 120 seconds. Missed calls do not imply missed trading days. Configure an equivalent external scheduler to call `GET /api/cron` with `Authorization: Bearer <CRON_SECRET>` if needed. Never put the secret in a URL. Without the secret the endpoint returns 401. The GitHub repository and Vercel deployment are live. Scheduled production cron execution remains unverified.
 
 ## Tests
 
