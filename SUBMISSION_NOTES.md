@@ -12,7 +12,7 @@ The architecture uses one Next.js application, official NSE and Yahoo adapters, 
 
 Trade-offs: deep deterministic financial/guidance extraction currently focuses on Infosys; personal alert preferences are browser-local; no background Web Push, OCR or trading features. Live AI synthesis and hosted persistence require configuration and separate validation. The next work would broaden comparable financial extraction and connect per-user rules to a durable scheduler.
 
-- Deployed phone-accessible application: **insert the actual verified deployment URL**
+- Deployed phone-accessible application: https://finn-ecru-chi.vercel.app
 - GitHub repository: https://github.com/kislay9801/FINN
 - AI build history: **share/export the real Codex conversation separately and insert its link**
 

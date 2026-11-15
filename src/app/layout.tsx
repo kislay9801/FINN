@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import "./readability.css";
 export const metadata: Metadata = {
   title: "FINN — Signal over Noise",
   description:

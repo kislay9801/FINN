@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { Account } from "./account";
 import {
   Activity,
   ArrowRight,
@@ -459,13 +460,7 @@ export default function Finn() {
           </p>
           <span>ENAM BUILD CHALLENGE / 2026</span>
         </div>
-        <button className="profile" onClick={() => navigate("alerts")}>
-          <span className="avatar">KI</span>
-          <span>
-            My research desk<small>Local workspace</small>
-          </span>
-          <Settings2 size={16} />
-        </button>
+        <Account placement="sidebar" />
       </aside>
       <main className="main">
         <header className="topbar">
@@ -476,6 +471,7 @@ export default function Finn() {
             WORKSPACE <span>/</span> {label(view)}
           </span>
           <div className="top-actions">
+            <Account placement="header" />
             <span className="local-tag">
               <i />
               SOURCE-BACKED ARCHIVE

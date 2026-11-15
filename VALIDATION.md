@@ -1,5 +1,15 @@
 # Executed validation · 14 November 2026
 
+## Readability and account update · 15 November 2026
+
+- Lint and strict TypeScript checks passed; the production build includes the new `/api/auth` route.
+- **24/24 unit/adapter tests passed**, including credential/session validation, authentic provider-user parsing and sanitized authentication errors.
+- **10/10 browser tests passed** at 390×844 mobile and 1440×1000 desktop. Added checks assert body copy is at least 15 px, the canvas is not pure white, the workspace settings button saves a desk name across reloads, and sign-in/error/sign-out screens handle synthetic provider responses correctly. Original digest, portfolio, research and rule-persistence journeys still pass.
+- Refreshed mobile/desktop screenshots were visually inspected. The default theme now has a dark pine navigation rail, warmer reading surfaces, stronger metadata contrast, larger body text and enlarged controls. Dialogs have accessible names; sign-in tabs support arrow-key navigation.
+- Real Supabase authentication remains **configuration-dependent**. UI tests use mocked account responses and adapter tests use mocked upstream responses: they do not prove a live Supabase project accepts credentials or sends confirmation email. Add `SUPABASE_URL` and `SUPABASE_ANON_KEY`, enable the Email provider, set the Supabase Site URL, and redeploy to enable it. Tokens are server-validated and stored in HttpOnly cookies. Personal watchlists/preferences remain on the device.
+
+The original build-validation record follows.
+
 Environment: Windows, Node 20.12.1, Next.js 16.4.6, React 19.3.1. Node 22.13+ is recommended for clean dependency engine compatibility; lint/build/test commands also executed successfully on the installed Node version.
 
 - `npm install`: completed. Follow-up dependency audit: **0 known vulnerabilities** after replacing the Vitest dependency tree with Node's built-in runner and updating Zod/minimatch.

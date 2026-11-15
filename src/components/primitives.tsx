@@ -1,16 +1,19 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useId } from "react";
 import { X, ArrowUpRight, FileText } from "lucide-react";
 import type { Citation } from "@/types";
 export function Drawer({
   title,
   children,
   onClose,
+  eyebrow = "FINN / EVIDENCE DESK",
 }: {
   title: string;
   children: React.ReactNode;
   onClose: () => void;
+  eyebrow?: string;
 }) {
+  const titleId = useId();
   const ref = useRef<HTMLDialogElement>(null);
   useEffect(() => {
     const dialog = ref.current;
@@ -21,6 +24,7 @@ export function Drawer({
     <dialog
       ref={ref}
       className="drawer"
+      aria-labelledby={titleId}
       onCancel={onClose}
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();
@@ -28,7 +32,7 @@ export function Drawer({
     >
       <div className="drawer-inner">
         <header>
-          <span className="eyebrow">FINN / EVIDENCE DESK</span>
+          <span className="eyebrow">{eyebrow}</span>
           <button
             className="icon-button"
             aria-label="Close panel"
@@ -37,7 +41,7 @@ export function Drawer({
             <X size={20} />
           </button>
         </header>
-        <h2>{title}</h2>
+        <h2 id={titleId}>{title}</h2>
         {children}
       </div>
     </dialog>

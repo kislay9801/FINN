@@ -36,7 +36,104 @@ import {
 import { companies } from "../src/server/ingestion";
 import { portfolio } from "../src/data/companies";
 import { sameOrigin } from "../src/server/security";
+import {
+  accountUser,
+  parseSession,
+  credentialsSchema,
+  authRequest,
+  authConfigured,
+  AuthError,
+} from "../src/server/auth";
 // Synthetic fixtures below exercise arithmetic only. They are never shipped as observations.
+test("account validation rejects weak/malformed credentials and never treats a profile as a session", () => {
+  assert.equal(
+    credentialsSchema.safeParse({
+      action: "login",
+      email: "invalid",
+      password: "123",
+    }).success,
+    false,
+  );
+  assert.equal(
+    credentialsSchema.safeParse({
+      action: "login",
+      email: "analyst@example.test",
+      password: "test-password",
+    }).success,
+    true,
+  );
+  assert.equal(parseSession({ user: { id: "fixture" } }), null);
+  assert.equal(
+    parseSession({
+      access_token: "fixture-access",
+      refresh_token: "fixture-refresh",
+      expires_in: 3600,
+    })?.expires_in,
+    3600,
+  );
+  assert.throws(() => accountUser({ id: "fixture", email: "not-an-email" }));
+  assert.equal(
+    accountUser({
+      id: "fixture",
+      email: "analyst@example.test",
+      user_metadata: { name: " Test Analyst " },
+    }).name,
+    "Test Analyst",
+  );
+});
+test("auth adapter uses the configured provider and maps failures without leaking responses", async () => {
+  const oldUrl = process.env.SUPABASE_URL,
+    oldKey = process.env.SUPABASE_ANON_KEY,
+    originalFetch = globalThis.fetch;
+  try {
+    delete process.env.SUPABASE_ANON_KEY;
+    assert.equal(authConfigured(), false);
+    await assert.rejects(() => authRequest("user"), AuthError);
+    process.env.SUPABASE_URL = "https://fixture.supabase.co";
+    process.env.SUPABASE_ANON_KEY = "test-only-anon-key";
+    assert.equal(authConfigured(), true);
+    globalThis.fetch = async (input, options) => {
+      assert.equal(
+        String(input),
+        "https://fixture.supabase.co/auth/v1/token?grant_type=password",
+      );
+      assert.equal(
+        (options?.headers as Record<string, string>).apikey,
+        "test-only-anon-key",
+      );
+      return Response.json(
+        {
+          error_code: "invalid_credentials",
+          message: "Sensitive upstream details",
+        },
+        { status: 400 },
+      );
+    };
+    await assert.rejects(
+      () =>
+        authRequest("token?grant_type=password", {
+          email: "analyst@example.test",
+          password: "fixture-password",
+        }),
+      (e) =>
+        e instanceof AuthError &&
+        e.status === 401 &&
+        !e.message.includes("Sensitive"),
+    );
+    globalThis.fetch = async () =>
+      Response.json({ id: "fixture", email: "analyst@example.test" });
+    assert.equal(
+      accountUser(await authRequest("user", undefined, "fixture-access")).email,
+      "analyst@example.test",
+    );
+  } finally {
+    globalThis.fetch = originalFetch;
+    if (oldUrl === undefined) delete process.env.SUPABASE_URL;
+    else process.env.SUPABASE_URL = oldUrl;
+    if (oldKey === undefined) delete process.env.SUPABASE_ANON_KEY;
+    else process.env.SUPABASE_ANON_KEY = oldKey;
+  }
+});
 const series: PriceSeries = {
   ticker: "TEST",
   sourceUrl: "https://query1.finance.yahoo.com/test",
